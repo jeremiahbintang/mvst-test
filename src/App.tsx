@@ -1,4 +1,3 @@
-import moment from "moment";
 import { Octokit } from "@octokit/rest";
 import { useEffect, useState } from "react";
 import "./App.css";
@@ -7,9 +6,10 @@ import LeftSide, {
   PersonalInformation,
 } from "./components/LeftSide";
 import RightSide, { Repository } from "./components/RightSide";
+import { Box, Grid } from "@mui/material";
 
 const octokit = new Octokit({
-  auth: "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",
+  auth: process.env.REACT_APP_GITHUB_ACCESS_TOKEN,
 });
 
 function App() {
@@ -38,7 +38,6 @@ function App() {
           email,
           organizations_url,
           repos_url,
-          ...rest
         },
       } = await octokit.request("/user");
 
@@ -112,21 +111,25 @@ function App() {
   }, []);
 
   return (
-    <div className="w-screen">
-      <div className="px-8 flex space-x-6 m-auto">
-        <LeftSide
-          className="flex-initial w-[296px]"
-          avatarUrl={avatarUrl}
-          personalInformation={personalInformation}
-          organizations={organizations}
-        />
-
-        <RightSide
-          className="flex-initial w-full"
-          repositories={repositories}
-        />
-      </div>
-    </div>
+    <Box
+      display="flex"
+      alignItems="center"
+      width="100vw"
+      justifyContent="center"
+    >
+      <Grid container spacing={2}>
+        <Grid item width={296}>
+          <LeftSide
+            avatarUrl={avatarUrl}
+            personalInformation={personalInformation}
+            organizations={organizations}
+          />
+        </Grid>
+        <Grid item width={896}>
+          <RightSide repositories={repositories} />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
