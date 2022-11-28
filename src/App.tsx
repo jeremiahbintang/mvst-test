@@ -9,7 +9,7 @@ import LeftSide, {
 import RightSide, { Repository } from "./components/RightSide";
 
 const octokit = new Octokit({
-  auth: "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",
+  auth: "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",
 });
 
 function App() {
@@ -71,7 +71,7 @@ function App() {
       );
 
       const { data: repos } = await octokit.request(repos_url);
-      console.log(repos);
+
       setRepositories(
         repos.map(
           ({
@@ -110,16 +110,22 @@ function App() {
     };
     fetchGithubData();
   }, []);
-  console.log(repositories);
+
   return (
-    <div className="flex">
-      <LeftSide
-        className="flex-initial w-32"
-        avatarUrl={avatarUrl}
-        personalInformation={personalInformation}
-        organizations={organizations}
-      />
-      <RightSide className="flex-initial w-64" repositories={repositories} />
+    <div className="w-screen">
+      <div className="px-8 flex space-x-6 m-auto">
+        <LeftSide
+          className="flex-initial w-[296px]"
+          avatarUrl={avatarUrl}
+          personalInformation={personalInformation}
+          organizations={organizations}
+        />
+
+        <RightSide
+          className="flex-initial w-full"
+          repositories={repositories}
+        />
+      </div>
     </div>
   );
 }
